@@ -24,6 +24,7 @@ function splitNameAndVersion(p) {
 	return [p.slice(0, index), p.slice(index+1)]
 }
 async function main() {
+	global.verbose = process.argv.includes('-v');
 	// The .install-peer-deps-lock file is used as a way to
 	// stop the command from being recursively run by an
 	// npm postinstall run-script.
@@ -31,19 +32,8 @@ async function main() {
 		fs.writeFileSync(lockfile, "");
 		const pds = await findAllPeerDependencies();
 		console.log('Installing peer-dependencies:', pds);
-        // TODO: Figure out how to detect real conflicts and log out the culprit
-		// const meow = new Map;
-		// for (const dep of pds) {
-		// 	const [name, version] = splitNameAndVersion(dep);
-		// 	if (meow.has(name) && meow.get(name) != version) {
-        //         fs.unlinkSync(lockfile);
-        //         console.error(`WE GOT OURSELVES A CONFLICT: ${name}@${version} and ${name}@${meow.get(name)}`);
-        //         process.exit(1);
-		// 	} else {
-		// 		meow.set(name, version);
-		// 	}
-		// }
         if (pds.length > 0) {
+			console.log('npm', ['install', '--no-save', ...pds]);
             const childProcess = execa('npm', ['install', '--no-save', ...pds]);
             childProcess.stdout.pipe(process.stdout);
             childProcess.stderr.pipe(process.stderr);

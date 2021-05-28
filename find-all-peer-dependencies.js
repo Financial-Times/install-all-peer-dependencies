@@ -1,7 +1,9 @@
 "use strict";
 
 const execa = require("execa");
-
+const debug = function (...args) {
+    console.debug('install-all-peer-dependencies:', ...args);
+}
 function isJSON(str) {
 	try {
 		JSON.parse(str);
@@ -43,7 +45,7 @@ async function getPeerDependencies(packages = []) {
     return await getPeerDependenciesRecursive(packages, results);
 }
 
-async function getMissingRootPeerDepencies() {
+async function getMissingRootPeerDependencies() {
 	let missingPeerDependencies = new Set;
 	try {
 		await execa("npm", ["ls", "--parseable"]);
@@ -55,6 +57,14 @@ async function getMissingRootPeerDepencies() {
 			}
 		}
 	}
+    missingPeerDependencies = Array.from(missingPeerDependencies);
+    if (global.verbose) {
+        if (missingPeerDependencies.length) {
+            debug('Found root missing peer-dependencies:', missingPeerDependencies)
+        } else {
+            debug('Found no missing peer-dependencies.')
+        }
+    }
 	return Array.from(missingPeerDependencies);
 }
 
@@ -64,7 +74,7 @@ function splitNameAndVersion(p) {
 }
 
 module.exports = async function findAllPeerDependencies() {
-    let mpds = await getMissingRootPeerDepencies();
+    let mpds = await getMissingRootPeerDependencies();
     mpds = mpds.map(splitNameAndVersion)
     const pds = await getPeerDependencies(mpds);
     return pds;
