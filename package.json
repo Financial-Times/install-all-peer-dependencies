@@ -1,0 +1,22 @@
+{
+  "name": "install-all-peer-dependencies",
+  "version": "1.0.0",
+  "description": "automatically install all peer dependencies",
+  "main": "index.js",
+  "bin": "index.js",
+  "engines": {
+    "npm": "^6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "execa": "^5.0.0"
+  },
+  "volta": {
+    "node": "14.17.0",
+    "npm": "6.14.13"
+  }
+}
