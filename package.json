@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "automatically install all peer dependencies",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": {
+    "install-all-peer-dependencies": "index.js"
+  },
   "engines": {
     "npm": "^6"
   },
@@ -18,5 +20,14 @@
   "volta": {
     "node": "14.17.0",
     "npm": "6.14.13"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Financial-Times/install-all-peer-dependencies.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Financial-Times/install-all-peer-dependencies/issues"
+  },
+  "homepage": "https://github.com/Financial-Times/install-all-peer-dependencies#readme"
 }
